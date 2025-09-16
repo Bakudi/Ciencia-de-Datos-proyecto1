@@ -1,0 +1,44 @@
+Consultas
+
+3.a.i:
+
+SELECT 
+    dp.category,
+    SUM(f.quantity * f.price) AS total_sales
+FROM factsales f
+JOIN dimproduct dp ON f.product_id = dp.product_id
+GROUP BY dp.category
+ORDER BY total_sales DESC;
+
+3.a.ii:
+
+SELECT 
+    f.customer_id,
+    SUM(f.quantity * f.price) AS total_spent,
+    COUNT(DISTINCT f.invoice_no) AS total_orders
+FROM factsales f
+GROUP BY f.customer_id
+ORDER BY total_spent DESC
+LIMIT 10;
+
+3.a.iii:
+
+SELECT 
+    pm.payment_method,
+    COUNT(*) AS total_transactions,
+    SUM(f.quantity * f.price) AS total_sales
+FROM factsales f
+JOIN dimpayment pm ON f.payment_id = pm.payment_id
+GROUP BY pm.payment_method
+ORDER BY total_transactions DESC;
+
+3.a.iv:
+
+SELECT 
+    d.year,
+    d.month,
+    SUM(f.quantity * f.price) AS total_sales
+FROM factsales f
+JOIN dimdate d ON f.date_id = d.date_id
+GROUP BY d.year, d.month
+ORDER BY d.year, d.month;
